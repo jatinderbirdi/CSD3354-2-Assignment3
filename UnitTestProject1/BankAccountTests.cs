@@ -55,5 +55,45 @@ namespace UnitTestProject1
             //Assert is handled by the expectedException attribute on the test method.
 
         }
+        [TestMethod]
+        public void Debit_WhenAmountIsThanBalance_ShouldThrowArgumentOutOfRange()
+        {
+            //Arrange
+            double beginningBalance = 11.99;
+            double debitAmount = 100.00;
+            BankAccount account = new BankAccount("Mr.Bryan Walton", beginningBalance);
+
+            //Act
+            try
+            {
+                account.Debit(debitAmount);
+            }
+            catch(ArgumentOutOfRangeException e)
+            {
+                StringAssert.Contains(e.Message, BankAccount.DebitAmountLessThanZeroMessage);
+            }
+        }
+
+        [TestMethod]
+        public void Debit_WhenAmountIsMoreThanBalance_ShouldThrowArgumentOutOfRange()
+        {
+            //Arrange
+            double beginningBalance = 11.99;
+            double debitAmount = 100.00;
+            BankAccount account = new BankAccount("Mr.Bryan Walton", beginningBalance);
+
+            //Act
+            try
+            {
+                account.Debit(debitAmount);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                StringAssert.Contains(e.Message, BankAccount.DebitAmountExceedbalanceMessage);
+                return;
+            }
+            Assert.Fail("Expected expection not thrown");
+        }
     }
+
 }
